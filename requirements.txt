@@ -13,6 +13,7 @@ redis
 qdrant-client
 
 # Embeddings
+torch
 sentence-transformers
 
 # LLM
