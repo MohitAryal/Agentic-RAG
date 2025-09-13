@@ -1,0 +1,32 @@
+# Core API framework
+fastapi
+uvicorn[standard]
+
+# Database & ORM
+sqlalchemy[asyncio]
+asyncpg
+
+# Caching
+redis
+
+# Vector DB
+qdrant-client
+
+# Embeddings
+sentence-transformers
+
+# LLM
+langchain
+langchain-groq
+
+# File handling
+python-multipart
+pypdf
+aiofiles
+
+
+# Email validation for Pydantic/FastAPI
+email-validator
+
+# Environment management
+python-dotenv
