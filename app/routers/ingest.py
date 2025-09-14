@@ -13,6 +13,9 @@ from dotenv import load_dotenv
 router = APIRouter()
 
 load_dotenv()
+UPLOAD_DIR = os.getenv(UPLOAD_DIR)
+strategy = os.getenv(STRATEGY)
+embedding_model = os.getenv(EMBEDDING_MODEL)
 
 UPLOAD_DIR.mkdir(exist_ok=True)
 
@@ -31,7 +34,7 @@ async def upload_files(files: List[UploadFile] = File(...)):
             text = await extract_text_from_file(file_path)
             
             # Chunk text
-            chunks = chunk_text(text, strategy=STRATEGY)
+            chunks = chunk_text(text, strategy=strategy)
             
             # Generate embeddings
             embeddings = await generate_embeddings(chunks)
@@ -40,7 +43,7 @@ async def upload_files(files: List[UploadFile] = File(...)):
             vector_ids = await save_embeddings_to_vector_db(chunks, embeddings, metadata={"filename": file.filename})
             
             # Save metadata to SQL DB
-            await save_file_metadata(file.filename, chunking_method=STRATEGY, chunk_count=len(chunks), embedding_model=EMBEDDING_MODEL)
+            await save_file_metadata(file.filename, chunking_method=strategy, chunk_count=len(chunks), embedding_model=embedding_model)
             
             responses.append({"filename": file.filename, "chunks": len(chunks), "vector_ids": vector_ids})
         except Exception as e:
