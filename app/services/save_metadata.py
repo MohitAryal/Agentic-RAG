@@ -1,5 +1,5 @@
-from app.db.db_session import get_session
-from app.db.sqlmodels import FileMetadata
+from db.db_session import get_session
+from db.sqlmodels import FileMetadata
 import asyncio
 
 async def save_file_metadata(filename: str, chunking_method: str, chunk_count: int, embedding_model: str):
