@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-qdrant_url = os.getenv(QDRANT_URL)
+qdrant_url = os.getenv('QDRANT_URL')
 
 qdrant = QdrantClient(url=qdrant_url)
 

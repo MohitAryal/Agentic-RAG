@@ -14,9 +14,9 @@ import os
 router = APIRouter()
 
 load_dotenv()
-UPLOAD_DIR = os.getenv(UPLOAD_DIR)
-strategy = os.getenv(STRATEGY)
-embedding_model = os.getenv(EMBEDDING_MODEL)
+UPLOAD_DIR = os.getenv('UPLOAD_DIR')
+strategy = os.getenv('STRATEGY')
+embedding_model = os.getenv('EMBEDDING_MODEL')
 
 UPLOAD_DIR.mkdir(exist_ok=True)
 
