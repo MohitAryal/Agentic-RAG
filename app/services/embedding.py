@@ -1,7 +1,10 @@
 from sentence_transformers import SentenceTransformer
 import asyncio
+from python.dotenv import load_dotenv
 
-model = SentenceTransformer("all-MiniLM-L6-v2")
+load_dotenv()
+
+model = SentenceTransformer(STRATEGY)
 
 async def generate_embeddings(chunks: list[str]) -> list[list[float]]:
     loop = asyncio.get_running_loop()
