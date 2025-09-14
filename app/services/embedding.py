@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-model = SentenceTransformer(STRATEGY)
+model = SentenceTransformer(EMBEDDING_MODEL)
 
 async def generate_embeddings(chunks: list[str]) -> list[list[float]]:
     loop = asyncio.get_running_loop()
