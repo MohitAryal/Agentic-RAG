@@ -4,9 +4,10 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
+database_url = os.getenv(DATABASE_URL)
 
 # Create async engine
-engine = create_async_engine(DATABASE_URL, echo=True, future=True)
+engine = create_async_engine(database_url, echo=True, future=True)
 
 # Create session factory
 async_session = sessionmaker(
