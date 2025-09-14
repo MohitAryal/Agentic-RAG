@@ -14,11 +14,11 @@ import os
 router = APIRouter()
 
 load_dotenv()
-UPLOAD_DIR = os.getenv('UPLOAD_DIR')
+upload_dir = Path(os.getenv('UPLOAD_DIR'))
 strategy = os.getenv('STRATEGY')
 embedding_model = os.getenv('EMBEDDING_MODEL')
 
-UPLOAD_DIR.mkdir(exist_ok=True)
+upload_dir.mkdir(exist_ok=True)
 
 @router.post("/upload")
 async def upload_files(files: List[UploadFile] = File(...)):
@@ -26,7 +26,7 @@ async def upload_files(files: List[UploadFile] = File(...)):
     for file in files:
         try:
             # Save file to local storage
-            file_path = UPLOAD_DIR / file.filename
+            file_path = upload_dir / file.filename
             async with aiofiles.open(file_path, 'wb') as f:
                 content = await file.read()
                 await f.write(content)
