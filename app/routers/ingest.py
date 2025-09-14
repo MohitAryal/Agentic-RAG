@@ -9,6 +9,7 @@ from services.embedding import generate_embeddings
 from services.vectorstore import save_embeddings_to_vector_db
 from services.save_metadata import save_file_metadata
 from dotenv import load_dotenv
+import os
 
 router = APIRouter()
 
