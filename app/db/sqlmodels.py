@@ -27,6 +27,7 @@ class Document(Base):
 
     owner = relationship('User', back_populates='documents')
     chunks = relationship('Chunk', back_populates='document')
+    metadata = relationship("FileMetadata", back_populates="document", uselist=False, cascade="all, delete-orphan")
 
 
 class Chunk(Base):
@@ -54,3 +55,15 @@ class Booking(Base):
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
 
     user = relationship("User", back_populates="bookings")
+
+
+class FileMetadata(Base):
+    __tablename__ = "file_metadata"
+
+    id = Column(Integer, primary_key=True, index=True)
+    filename = Column(Integer, ForeignKey("document.doc_id", ondelete="CASCADE"), nullable=False, unique=True)
+    chunking_method = Column(String, default='recursive')
+    chunks = Column(Integer, default=0)
+    used_emb_model = Column(String, default='All-miniLM-L6-v2')
+
+    document = relationship("Document", back_populates="metadata")
