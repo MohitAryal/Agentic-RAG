@@ -2,7 +2,7 @@ from qdrant_client import QdrantClient
 from qdrant_client.http.models import PointStruct
 import uuid
 import asyncio
-from python.dotenv import load_dotenv
+from dotenv import load_dotenv
 
 load_dotenv()
 

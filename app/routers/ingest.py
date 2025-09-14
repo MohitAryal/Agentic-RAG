@@ -3,12 +3,12 @@ from fastapi.responses import JSONResponse
 import aiofiles
 from pathlib import Path
 from typing import List
-from app.services.text_extraction import extract_text_from_file
-from app.services.chunking import chunk_text
-from app.services.embedding import generate_embeddings
-from app.services.vectorstore import save_embeddings_to_vector_db
-from app.services.save_metadata import save_file_metadata
-from python.dotenv import load_dotenv
+from services.text_extraction import extract_text_from_file
+from services.chunking import chunk_text
+from services.embedding import generate_embeddings
+from services.vectorstore import save_embeddings_to_vector_db
+from services.save_metadata import save_file_metadata
+from dotenv import load_dotenv
 
 router = APIRouter()
 

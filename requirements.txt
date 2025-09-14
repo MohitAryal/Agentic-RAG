@@ -1,6 +1,7 @@
 # Core API framework
 fastapi
 uvicorn[standard]
+gunicorn
 
 # Database & ORM
 sqlalchemy[asyncio]

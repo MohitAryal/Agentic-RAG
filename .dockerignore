@@ -1,0 +1,12 @@
+# Ignore the .git directory
+.git/
+.gitignore
+Dockerfile
+__pycache__
+*.pyc
+*.pyo
+.vscode/
+.idea/
+*.log
+*.tmp
+.env
