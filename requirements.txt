@@ -10,7 +10,7 @@ asyncpg
 redis
 
 # Vector DB
-qdrant-client
+qdrant-client[fastembed]
 
 # Embeddings
 torch
