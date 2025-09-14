@@ -27,7 +27,7 @@ class Document(Base):
 
     owner = relationship('User', back_populates='documents')
     chunks = relationship('Chunk', back_populates='document')
-    metadata = relationship("FileMetadata", back_populates="document", uselist=False, cascade="all, delete-orphan")
+    meta_data = relationship("FileMetadata", back_populates="document", uselist=False, cascade="all, delete-orphan")
 
 
 class Chunk(Base):
@@ -66,4 +66,4 @@ class FileMetadata(Base):
     chunks = Column(Integer, default=0)
     used_emb_model = Column(String, default='All-miniLM-L6-v2')
 
-    document = relationship("Document", back_populates="metadata")
+    document = relationship("Document", back_populates="meta_data")
