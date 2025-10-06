@@ -1,6 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.responses import JSONResponse
+from services.ingestion_service import ingest_file
 import aiofiles
 from pathlib import Path
 from typing import List
