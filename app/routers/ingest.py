@@ -16,7 +16,7 @@ upload_dir.mkdir(exist_ok=True)
 router = APIRouter()
 
 @router.post("/upload")
-async def upload_files(files: List[UploadFile] = File(...), user_id: str = Depends(get_user_id), db: AsyncSession = Depends(get_session)):
+async def upload_files(files: List[UploadFile] = File(...), db: AsyncSession = Depends(get_session)):
     responses = []
     for file in files:
         try:
@@ -27,7 +27,7 @@ async def upload_files(files: List[UploadFile] = File(...), user_id: str = Depen
                 await f.write(content)
             
             # Ingest file to vector database
-            response = ingest_file(path=file_path, filename=file.filename, user_id=user_id)
+            response = ingest_file(path=file_path, filename=file.filename)
             responses.append(response)
 
         except Exception as e:

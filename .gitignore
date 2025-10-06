@@ -4,3 +4,4 @@ qdrant_data/
 postgres_data/
 *.db
 __pycache__
+uploads/
