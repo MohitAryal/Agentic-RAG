@@ -7,6 +7,7 @@ import os
 
 load_dotenv()
 
+collection_name = os.getenv('COLLECTION_NAME')
 qdrant_url = os.getenv('QDRANT_URL')
 qdrant_api_key = os.getenv('QDRANT_API_KEY')
 vector_size = int(os.getenv('VECTOR_SIZE'))
@@ -27,7 +28,6 @@ def get_distance_metric(distance: str, default: str = "cosine") -> Distance:
 
 
 async def ensure_collection_exists(user_id: str) -> str:
-    collection_name = f"user_{user_id}_documents"
     collections_response = await qdrant.get_collections()
     existing_collections = collections_response.collections
 
@@ -42,8 +42,8 @@ async def ensure_collection_exists(user_id: str) -> str:
     return collection_name
 
 
-async def save_embeddings_to_vector_db(user_id: str, embeddings: list[list[float]], metadata: dict):
-    collection = await ensure_collection_exists(user_id)
+async def save_embeddings_to_vector_db(embeddings: list[list[float]], metadata: dict):
+    collection = await ensure_collection_exists()
     
     points = []
     for chunk, emb in zip(chunks, embeddings):
