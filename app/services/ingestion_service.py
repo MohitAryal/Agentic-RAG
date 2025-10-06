@@ -10,7 +10,7 @@ strategy = os.getenv('STRATEGY')
 embedding_model = os.getenv('EMBEDDING_MODEL')
 
 
-def ingest_file(path, filename, user_id):
+def ingest_file(path, filename):
     # Extract text
     text = await extract_text_from_file(path)
     
@@ -21,9 +21,9 @@ def ingest_file(path, filename, user_id):
     embeddings = await generate_embeddings(chunks)
     
     # Save to vector DB
-    vector_ids = await save_embeddings_to_vector_db(user_id, embeddings, metadata={"filename": filename})
+    vector_ids = await save_embeddings_to_vector_db(embeddings, metadata={"filename": filename})
     
     # Save metadata to SQL DB
-    await save_file_metadata(user_id, filename, chunking_method=strategy, chunk_count=len(chunks), embedding_model=embedding_model)
+    await save_file_metadata(filename, chunking_method=strategy, chunk_count=len(chunks), embedding_model=embedding_model)
     
     return {"filename": filename, "chunks": len(chunks), "vector_ids": vector_ids}
