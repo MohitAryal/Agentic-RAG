@@ -4,7 +4,6 @@ import aiofiles
 from pathlib import Path
 from typing import List
 from db.db_session import get_session
-from dependencies import get_user_id
 from dotenv import load_dotenv
 import os
 
