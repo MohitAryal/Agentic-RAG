@@ -28,7 +28,7 @@ async def upload_files(files: List[UploadFile] = File(...), db: AsyncSession = D
                 await f.write(content)
             
             # Ingest file to vector database
-            response = ingest_file(path=file_path, filename=file.filename)
+            response = await ingest_file(path=file_path, filename=file.filename)
             responses.append(response)
 
         except Exception as e:

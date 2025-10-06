@@ -27,7 +27,7 @@ def get_distance_metric(distance: str, default: str = "cosine") -> Distance:
     return DISTANCE_MAP.get(selected_metric, DISTANCE_MAP[default])
 
 
-async def ensure_collection_exists(user_id: str) -> str:
+async def ensure_collection_exists() -> str:
     collections_response = await qdrant.get_collections()
     existing_collections = collections_response.collections
 
@@ -42,11 +42,11 @@ async def ensure_collection_exists(user_id: str) -> str:
     return collection_name
 
 
-async def save_embeddings_to_vector_db(embeddings: list[list[float]], metadata: dict):
+async def save_embeddings_to_vector_db(chunks: list[str], embeddings: list[list[float]], metadata: dict):
     collection = await ensure_collection_exists()
     
     points = []
     for chunk, emb in zip(chunks, embeddings):
-        points.append(PointStruct(id=str(uuid.uuid4()), vector=emb, payload=**metadata))
+        points.append(PointStruct(id=str(uuid.uuid4()), vector=emb, payload=metadata))
     
     await qdrant.upsert(collection_name=collection, points=points)
