@@ -70,3 +70,9 @@ class BookingRead(BookingBase):
 
     class Config:
         from_attributes = True
+
+class ChatRequest(BaseModel):
+    query: str
+
+class ChatResponse(BaseModel):
+    response: str

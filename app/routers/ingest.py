@@ -1,27 +1,22 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from fastapi.responses import JSONResponse
 import aiofiles
 from pathlib import Path
 from typing import List
-from services.text_extraction import extract_text_from_file
-from services.chunking import chunk_text
-from services.embedding import generate_embeddings
-from services.vectorstore import save_embeddings_to_vector_db
-from services.save_metadata import save_file_metadata
+from db.db_session import get_session
+from dependencies import get_user_id
 from dotenv import load_dotenv
 import os
 
-router = APIRouter()
-
 load_dotenv()
-upload_dir = Path(os.getenv('UPLOAD_DIR'))
-strategy = os.getenv('STRATEGY')
-embedding_model = os.getenv('EMBEDDING_MODEL')
 
+upload_dir = Path(os.getenv('UPLOAD_DIR'))
 upload_dir.mkdir(exist_ok=True)
 
+router = APIRouter()
+
 @router.post("/upload")
-async def upload_files(files: List[UploadFile] = File(...)):
+async def upload_files(files: List[UploadFile] = File(...), user_id: str = Depends(get_user_id), db: AsyncSession = Depends(get_session)):
     responses = []
     for file in files:
         try:
@@ -31,22 +26,10 @@ async def upload_files(files: List[UploadFile] = File(...)):
                 content = await file.read()
                 await f.write(content)
             
-            # Extract text
-            text = await extract_text_from_file(file_path)
-            
-            # Chunk text
-            chunks = chunk_text(text, strategy=strategy)
-            
-            # Generate embeddings
-            embeddings = await generate_embeddings(chunks)
-            
-            # Save to vector DB
-            vector_ids = await save_embeddings_to_vector_db(chunks, embeddings, metadata={"filename": file.filename})
-            
-            # Save metadata to SQL DB
-            await save_file_metadata(file.filename, chunking_method=strategy, chunk_count=len(chunks), embedding_model=embedding_model)
-            
-            responses.append({"filename": file.filename, "chunks": len(chunks), "vector_ids": vector_ids})
+            # Ingest file to vector database
+            response = ingest_file(path=file_path, filename=file.filename, user_id=user_id)
+            responses.append(response)
+
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
     

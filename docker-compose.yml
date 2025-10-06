@@ -55,6 +55,8 @@ services:
     build:
       context: .
       dockerfile: app/Dockerfile
+    env_file:
+      - .env
     container_name: fastapi_app
     restart: always
     depends_on:
