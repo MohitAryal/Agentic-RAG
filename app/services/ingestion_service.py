@@ -4,7 +4,7 @@ from services.text_extraction import extract_text_from_file
 from services.chunking import chunk_text
 from services.embedding import generate_embeddings
 from services.vectorstore import save_embeddings_to_vector_db
-from services.save_metadata import save_file_metadata
+from services.populate_db import save_file_metadata
 
 strategy = os.getenv('STRATEGY')
 embedding_model = os.getenv('EMBEDDING_MODEL')
